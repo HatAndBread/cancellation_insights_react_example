@@ -1,23 +1,21 @@
-import logo from './logo.svg';
-import './App.css';
+import useBarecancel from './useBarecancel';
+import { useState } from 'react';
+
+const customers = ['cus_INSERT_CUSTOMER_OID_HERE', 'cus_INSERT_OTHER_CUSTOMER_OID_HERE']
 
 function App() {
+  const [accountDetails, setAccountDetails] = useState({subscriptionDetail: {customer: customers[0]}})
+  useBarecancel(accountDetails, () => console.log('Cancelling customer'));
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <button id="barecancel-trigger">Click me to cancel</button>
+      <br/>
+      <button onClick={()=>{
+        accountDetails.subscriptionDetail.customer === customers[0]
+          ? setAccountDetails({subscriptionDetail: {customer: customers[1]}})
+          : setAccountDetails({subscriptionDetail: {customer: customers[0]}})
+      }}>Change Customer</button>
+      <p>Current customer oid: {accountDetails.subscriptionDetail.customer}</p>
     </div>
   );
 }
